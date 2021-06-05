@@ -1,47 +1,135 @@
 package com;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
+public class AddressBookMain implements AddressBook {
 
-public class AddressBookMain {
-	
-	
-	public static void main(String[] args) throws IOException {
-		System.out.println("Welcome to Address book ");
-		InputStreamReader read = new InputStreamReader(System.in);
-        BufferedReader in = new BufferedReader(read);
-		
-		System.out.println("Enter new entry :");
-		System.out.println("Enter first name:- ");
-		String fname = in.readLine();
-		
-		System.out.println("Enter last name:- ");
-		String lname = in.readLine();
-		
-		System.out.println("Address :-");
-		
-		
-		String address = in.readLine();
-		
-		System.out.println("State :-");
-		String state = in.readLine();
-		
-		System.out.println("Zip code:- ");
-		String zip = in.readLine();
-		
-		System.out.println("Phone number:- ");
-		String phone = in.readLine();
-		
-		System.out.println("Name: "+fname+ " " +lname);
+	Scanner scanner = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);
+	List<Person> personList = new ArrayList<Person>();
 
-		System.out.println("Address : "+address);
-		System.out.println("State : "+state);
-		System.out.println("Zip code : "+zip);
-		System.out.println("Phone number : "+phone);
-		
-		
+	public void add() {
+		System.out.println("Enter your first name");
+		String firstName = scanner.nextLine();
+		System.out.println("Enter your last name");
+		String lastName = scanner.nextLine();
+		System.out.println("Enter your address");
+		String address = scanner.nextLine();
+		System.out.println("Enter your city");
+		String city = scanner.nextLine();
+		System.out.println("Enter your state");
+		String state = scanner.nextLine();
+		System.out.println("Enter your phone");
+		long mobileNo = scanner.nextLong();
+		System.out.println("Enter your zip code");
+		int zip = scanner.nextInt();
+
+		Person person1 = new Person(firstName, lastName, address, city, state, mobileNo, zip);
+		personList.add(person1);
+		System.out.println("Contact added successfully");
 	}
 
+	public void display() {
+		for (int i = 0; i < personList.size(); i++) {
+			Person person = personList.get(i);
+			System.out.println("FirstName:" + person.getFirstName() + "\n" + "LastName:" + person.getLastName() + "\n"
+					+ "Adress:" + person.getAddress() + "\n" + "City:" + person.getCity() + "\n" + "State:"
+					+ person.getCity() + "Phone-Number:" + person.getMobileNo() + "\n" + "Pin-code:"
+					+ person.getPincode());
+		}
+	}
+
+	public void edit(String firstName) {
+		for (int i = 0; i < personList.size(); i++) {
+			Person person = personList.get(i);
+			Scanner scanner = new Scanner(System.in);
+
+			System.out.println("Hi " + person.getFirstName() + " please enter your  new Address");
+			String address = scanner.nextLine();
+			person.setAddress(address);
+
+			System.out.println("Hi " + person.getFirstName() + " please enter your  new city");
+			String city = scanner.nextLine();
+			person.setCity(city);
+
+			System.out.println("Hi " + person.getFirstName() + " please enter your  new state");
+			String state = scanner.nextLine();
+			person.setState(state);
+
+			System.out.println("Hi " + person.getFirstName() + " please enter your  new Zip Code");
+			int zip = scanner.nextInt();
+			person.setPincode(zip);
+
+			System.out.println("Hi " + person.getFirstName() + " please enter your  new Phone No");
+			int PhoneNo = scanner.nextInt();
+			person.setMobileNo(PhoneNo);
+
+			System.out.println("Hi " + person.getFirstName() + " you have sucessfully updated");
+		}
+
+	}
+
+	public void delete(String name) {
+		for (int i = 0; i < personList.size(); i++) {
+			if (personList.get(i).getFirstName().equals(name)) {
+				Person person = personList.get(i);
+				personList.remove(person);
+			}
+		}
+	}
+
+	public void addMultiplePerson() {
+
+		System.out.println("Enter a person Name:");
+		String firstName = sc.nextLine();
+		for (int i = 0; i < personList.size(); i++) {
+			Person person = personList.get(i);
+			if (personList.get(i).getFirstName().equals(firstName)) {
+				System.out.println("Duplicate");
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Welcome to Address Book Program");
+
+		AddressBookMain adressBookObj = new AddressBookMain();
+		boolean condition = true;
+
+		while (condition == true) {
+			Scanner scanner = new Scanner(System.in);
+			Scanner option = new Scanner(System.in);
+			System.out.println("1.Add Person" + "\n" + "2.Display" + "\n" + "3.Edit person" + "\n" + "4."
+					+ "Delete Person" + "\n" + "5.Add Multiple Person");
+
+			switch (option.nextInt()) {
+			case 1:
+				adressBookObj.add();
+				break;
+			case 2:
+				adressBookObj.display();
+				break;
+			case 3:
+				System.out.println("Enter the firstName:");
+				String firstName = scanner.nextLine();
+				adressBookObj.edit(firstName);
+				break;
+			case 4:
+				System.out.println("Enter the Name of the person do you wants to delete");
+				String name = scanner.nextLine();
+				adressBookObj.delete(name);
+				break;
+			case 5:
+				adressBookObj.addMultiplePerson();
+				break;
+			default:
+				System.out.println("Thank You");
+				break;
+			}
+		}
+	}
 }
